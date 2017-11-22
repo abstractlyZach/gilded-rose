@@ -60,5 +60,5 @@ This work is by [@TerryHughes](https://twitter.com/TerryHughes), [@NotMyself](ht
 The repository can be found at [https://github.com/NotMyself/GildedRose](https://github.com/NotMyself/GildedRose)
 
 ## Zach's Note
-This is a fun coding example for me to practice my skills. It's about taking a foreign piece of legacy code and writing tests for it, and then refactoring it once there are tests, and then moving forwards from there. A great way to practice my *test-driven development* skills!
+This is a fun coding example for me to practice my skills. It's about taking a foreign piece of legacy code and writing tests for it, and then refactoring it once there are tests, and then moving forwards from there. A great way to practice my **test-driven development** skills!
 
