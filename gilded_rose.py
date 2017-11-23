@@ -37,7 +37,6 @@ def update(item):
 def update_special_item(item):
     if item.name == SULFURAS:
         update_sulfuras(item)
-        return
     elif item.name == BRIE:
         update_aged_brie(item)
     elif item.name == ETC_TICKETS:
