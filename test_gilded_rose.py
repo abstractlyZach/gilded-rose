@@ -68,3 +68,25 @@ def test_sell_in_after_update_quality(expected_sell_in, item, comment):
     inn = gilded_rose.GildedRose(items)
     inn.update_quality()
     assert item.sell_in == expected_sell_in
+
+conjured_item_test_cases = (
+    ('expected_sell_in', 'expected_quality', 'base_name', 'starting_sell_in',
+     'starting_quality', 'comment'),
+    [
+        (100, 24, 'potato', 101, 26, ''),
+        (45, 2, 'pizza', 46, 4, ''),
+        (-1, 4, 'pasta', 0, 8, 'expired pasta :('),
+        (50, 0, 'water', 51, 1, 'quality goes below 0'),
+        (-90, 0, 'turkey leg', -89, 3, 'super expired')
+    ]
+)
+
+@pytest.mark.parametrize(*conjured_item_test_cases)
+def test_conjured_items(expected_sell_in, expected_quality, base_name,
+                        starting_sell_in, starting_quality, comment):
+    item_name = 'Conjured {}'.format(base_name)
+    item = gilded_rose.Item(item_name, starting_sell_in, starting_quality)
+    inn = gilded_rose.GildedRose([item])
+    inn.update_quality()
+    assert item.quality == expected_quality
+    assert item.sell_in == expected_sell_in
