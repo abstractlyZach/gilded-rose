@@ -3,6 +3,7 @@ MAX_QUALITY = 50
 SULFURAS = 'Sulfuras, Hand of Ragnaros'
 BRIE = 'Aged Brie'
 ETC_TICKETS = 'Backstage passes to a TAFKAL80ETC concert'
+CONJURED_PREFIX = 'Conjured'
 
 SPECIAL_ITEMS = [SULFURAS, BRIE, ETC_TICKETS]
 
@@ -31,6 +32,8 @@ class Item:
 def update(item):
     if item.name in SPECIAL_ITEMS:
         update_special_item(item)
+    elif item.name.startswith(CONJURED_PREFIX):
+        update_conjured_item(item)
     else:
         update_normal_item(item)
 
@@ -70,16 +73,29 @@ def get_new_etc_tickets_quality(item):
     new_quality = item.quality + quality_to_add
     return min(new_quality, MAX_QUALITY)
 
+def update_conjured_item(item):
+    item.sell_in -= 1
+    item.quality = get_new_conjured_item_quality(item)
+
+def get_new_conjured_item_quality(item):
+    quality_to_lose = 2 * get_normal_item_quality_to_lose(item)
+    new_quality = item.quality - quality_to_lose
+    return max(new_quality, MIN_QUALITY)
+
 def update_normal_item(item):
     item.sell_in -= 1
     item.quality = get_new_normal_item_quality(item)
 
 def get_new_normal_item_quality(item):
-    quality_to_lose = 1
-    if is_expired(item):
-        quality_to_lose = 2
+    quality_to_lose = get_normal_item_quality_to_lose(item)
     new_quality = item.quality - quality_to_lose
     return max(new_quality, MIN_QUALITY)
+
+def get_normal_item_quality_to_lose(item):
+    if is_expired(item):
+        return 2
+    else:
+        return 1
 
 def is_expired(item):
     return item.sell_in < 0
