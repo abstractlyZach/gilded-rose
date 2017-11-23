@@ -56,18 +56,16 @@ def get_new_brie_quality(item):
     return min(item.quality + quality_to_add, MAX_QUALITY)
 
 def update_etc_tickets(item):
-    item.quality = get_new_etc_tickets_quality(item)
-    # updating sell_in happens at a different phase here because of the original logic of
-    # arriving concerts. change that function if you want to move this statement up.
     item.sell_in -= 1
+    item.quality = get_new_etc_tickets_quality(item)
     if is_expired(item):
         item.quality = 0
 
 def get_new_etc_tickets_quality(item):
     quality_to_add = 1
-    if item.sell_in < 6:
+    if item.sell_in < 5:
         quality_to_add = 3
-    elif item.sell_in < 11:
+    elif item.sell_in < 10:
         quality_to_add = 2
     new_quality = item.quality + quality_to_add
     return min(new_quality, MAX_QUALITY)
@@ -82,7 +80,6 @@ def get_new_normal_item_quality(item):
         quality_to_lose = 2
     new_quality = item.quality - quality_to_lose
     return max(new_quality, MIN_QUALITY)
-
 
 def is_expired(item):
     return item.sell_in < 0
